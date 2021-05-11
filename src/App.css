@@ -1,38 +1,106 @@
-.App {
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+    font-family: "Poppins", sans-serif;
+    color: #002e4a;
+}
+
+#root {
+  padding: 30px;
+}
+
+header, .body, footer {
+    min-width: 300px;
+}
+
+header {
+    text-align: center;
+    padding: 30px;
+}
+
+.body {
+  margin: 30px auto;
+  overflow: auto;
+  min-width: 90%;
+  min-height: 300px;
+  padding: 30px;
+}
+
+.slider, .space-edit, .container {
+  margin: 30px auto;
+} 
+
+.container {
+  margin-top: 0%;
+  background-color: #002e4a;
+  border: 0 5px 5px 5px solid #002e4a;
+  border-radius: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-bottom: 0px;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.buttons {
   display: flex;
-  flex-direction: column;
+  justify-content: space-evenly;
+  margin-bottom: 5px; 
+}
+
+.slider {
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  display: flex;
+  justify-content: space-evenly;
 }
 
-.App-link {
-  color: #61dafb;
+.range-slider {
+  height: 100%;
+  width: 20%;
+  border: 3px solid #002e4a;
+  border-radius: 5px;
+  background-color: white;
+  padding: 5px;
+  text-align: center;
+  max-width: 30%;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.space-edit {
+  padding: 0;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.space-edit .range-slider {
+  padding: 0;
+}
+
+
+button {
+  height: 100%;
+  width: 20%;
+  border: 3px solid #002e4a;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1.3em;
+  padding: 10px;
+  min-width: 120px;
+}
+
+h3 {
+    font-size: 1.3em;
+}
+
+span {
+    font-size: 1.2em;
+    font-family: "Poppins", sans-serif;
+    color: #002e4a;
+    margin-left: 5px;
+}
+
+canvas {
+  background-color: white;
 }
