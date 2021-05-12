@@ -2,24 +2,25 @@ import PropTypes from 'prop-types'
 import { useState } from 'react'
 
 const Slider = ({ text, defValue, min, max, step, changeValue, change }) => {
-    const [state, setState] = useState(defValue)
     
     return (
         <div className="range-slider">
             <h3>{text}</h3>
-            <input type="range" value={state} min={min} max={max} step={step} 
+            <input type="range" value={defValue} min={min} max={max} step={step} 
                 onChange={(event) => {
-                    change(true)
+                    if (change !== null) {
+                        change(true)
+                    }
                     changeValue(parseFloat(event.target.value))
-                    setState(event.target.value)
                 }}/>
-            <span>{state}</span>
+            <span>{defValue}</span>
         </div>
     )
 }
 
 Slider.defaultProps = {
     step: 1,
+    change: null,
 }
 
 Slider.propTypes = {
