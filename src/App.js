@@ -6,6 +6,7 @@ import Particle from './objects/Particle'
 import VectorUtil from './objects/VectorUtil'
 import Canvas from './components/Canvas';
 import { useState } from 'react'
+import { useCanvas } from './components/CanvasContext';
 
 function App() {
   const [speed, setSpeed] = useState(500);
@@ -13,7 +14,7 @@ function App() {
   
   const [isPlaying, setIsPlaying] = useState(false);
   const [showEditSpace, setShowEditSpace] = useState(false);
-  const [brushStrength, setBrushStrength] = useState(10);
+  const [brushStrength, setBrushStrength] = useState(3);
   const [brushSize, setBrushSize] = useState(10);
 
   const [hasChanged, setHasChanged] = useState(false);
@@ -27,6 +28,12 @@ function App() {
   const [particles, setParticles] = useState(Particle.initParticles(nParticles));
 
 
+  const {
+    clearCanvas,
+    randomizeCanvas,
+  } = useCanvas();
+
+
   const changeNumberOfParticles = value => {
     setNParticles(value);
     if (nParticles < range) {
@@ -34,7 +41,6 @@ function App() {
     }
   }
 
-  console.log(range);
 
 
   useState(() => {
@@ -61,12 +67,15 @@ function App() {
           <div className="space-edit" >
             <Slider 
               text={"Brush Strength"} 
-              min={-50} max={50} defValue={brushStrength} step={5} 
+              min={0} max={5} defValue={brushStrength} 
               changeValue={setBrushStrength} />
             <Slider 
               text={"Brush Size"} 
-              min={-50} max={50} defValue={brushSize} step={5}
+              min={5} max={50} defValue={brushSize} step={5}
               changeValue={setBrushSize} />
+            <Button
+              text="Randomize"
+              onClick={randomizeCanvas} />
           </div>}
           <div className="buttons">
             <Button 
@@ -95,7 +104,8 @@ function App() {
               }} />
             }
             </div>
-          {/* <Canvas nParticles={50} speed={speed} scale={scale} /> */}
+          
+          <Canvas brushSize={brushSize} brushStrength={brushStrength} />
         </div>
 
         <div className="slider">

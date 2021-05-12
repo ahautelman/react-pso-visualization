@@ -1,15 +1,23 @@
-import { useRef, useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import PropTypes from 'prop-types'
+import { useCanvas } from './CanvasContext'
 
-const Canvas = ({ }) => {
-    const [isDrawing, setIsDrawing] = useState(false)
+const Canvas = ({ brushSize, brushStrength }) => {
+    const util = useCanvas();
+    // const {
+    //     prepareCanvas,
+    //     startDrawing,
+    //     finishDrawing,
+    //     draw,
+    //   } = useCanvas();
 
-    const canvasRef = useRef(null)
-    const contextRef = useRef(null)
+    //   const {
+    //     canvasRef,
+    // } = useCanvas();
 
-    const drawParicles = () => {
-        contextRef.current.fillStyle = "white"
-        contextRef.current.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height)
+    // const drawParicles = () => {
+    //     contextRef.current.fillStyle = "white"
+    //     contextRef.current.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height)
 
             // method draws a triangle around the particle's position, taking into consideration it's velocity (direction)
     // The triangle is isosceles and has sharpest angle at the particle's position
@@ -37,48 +45,20 @@ const Canvas = ({ }) => {
     //     // draw the other edge (back to starting posistion)
     //     contextRef.current.lineTo(this.position[0], this.position[1])
     //     contextRef.current.fill()
-    }
+    // }
 
     useEffect(() => {
-        const canvas = canvasRef.current;
-        canvas.width = window.innerWidth * 9 / 10;
-        canvas.height = window.innerHeight * 4 / 5;
+        util.prepareCanvas();
+    }, []);
 
-        const context = canvas.getContext("2d");
-        context.lineCap = "round"
-        context.strokeStyle = "black"
-        context.lineWidth = 5
-        contextRef.current = context;
-
-    }, [])
-
-    const startDrawing = ({ nativeEvent }) => {
-        const {offsetX, offsetY} = nativeEvent
-        contextRef.current.beginPath();
-        contextRef.current.moveTo(offsetX, offsetY);
-        setIsDrawing(true);
-    }
-
-    const finishDrawing = () => {
-        setIsDrawing(false)
-        contextRef.current.closePath();
-    }
-
-    const draw = ({nativeEvent}) => {
-        if(!isDrawing) {
-            return
-        }
-        const {offsetX, offsetY} = nativeEvent
-        contextRef.current.lineTo(offsetX, offsetY)
-        contextRef.current.stroke()
-    }
+    const canvasStartDrawing = ({ nativeEvent }) => util.startDrawing({nativeEvent}, brushStrength, brushSize)
 
     return (
         <canvas
-            onMouseDown={startDrawing}
-            onMouseUp={finishDrawing}
-            onMouseMove={draw}
-            ref={canvasRef}
+            onMouseDown={canvasStartDrawing}
+            onMouseUp={util.finishDrawing}
+            onMouseMove={util.draw}
+            ref={util.canvasRef}
         />
     )
 }
@@ -86,6 +66,9 @@ const Canvas = ({ }) => {
 Canvas.defaultProps = { }
 
 Canvas.propTypes = {
+    brushSize: PropTypes.number.isRequired,
+    brushStrength: PropTypes.number.isRequired,
+
     // speed: PropTypes.number.isRequired,
     // scale: PropTypes.number.isRequired,
     

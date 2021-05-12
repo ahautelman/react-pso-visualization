@@ -13,7 +13,7 @@ const Slider = ({ text, defValue, min, max, step, changeValue, change }) => {
                     }
                     changeValue(parseFloat(event.target.value))
                 }}/>
-            <span>{defValue}</span>
+            <span>{step < 1 ? defValue.toFixed(2) : defValue}</span>
         </div>
     )
 }
