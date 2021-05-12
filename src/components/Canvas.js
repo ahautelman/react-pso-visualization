@@ -91,9 +91,15 @@ const Canvas = ({ nParticles, speed, scale }) => {
         context.lineWidth = 5
         contextRef.current = context;
 
-        setInterval(function() {
+        let intervalId = setInterval(function() {
+            console.log("draw")
             drawParicles()
         }, speed)
+
+        return () => {
+            clearInterval(intervalId)
+            console.log("restarted drawing")
+        }
     }, [speed])
 
     const startDrawing = ({ nativeEvent }) => {

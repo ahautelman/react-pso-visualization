@@ -10,7 +10,7 @@ const Slider = ({ text, defValue, min, max, step, changeValue, change }) => {
             <input type="range" value={state} min={min} max={max} step={step} 
                 onChange={(event) => {
                     change(true)
-                    changeValue(event.target.value)
+                    changeValue(parseInt(event.target.value))
                     setState(event.target.value)
                 }}/>
             <span>{state}</span>
