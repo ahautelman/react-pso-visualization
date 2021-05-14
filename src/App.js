@@ -2,13 +2,21 @@ import './App.css';
 import Header from './components/Header'
 import Slider from './components/Slider'
 import Button from './components/Button'
-import Particle from './objects/Particle'
-import VectorUtil from './objects/VectorUtil'
 import Canvas from './components/Canvas';
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useCanvas } from './components/CanvasContext';
+import { useParticles } from './components/ParticlesContext';
 
 function App() {
+  const {
+    clearCanvas,
+    randomizeCanvas,
+  } = useCanvas();
+
+  const {
+    initParticles,
+  } = useParticles();
+
   const [speed, setSpeed] = useState(500);
   const [scale, setScale] = useState(2);
   
@@ -25,14 +33,9 @@ function App() {
   const [social, setSocial] = useState(0.5);
   const [range, setRange] = useState(nParticles);
 
-  const [particles, setParticles] = useState(Particle.initParticles(nParticles));
-
-
-  const {
-    clearCanvas,
-    randomizeCanvas,
-  } = useCanvas();
-
+  useRef(() => {
+    initParticles(nParticles);
+  }, [])
 
   const changeNumberOfParticles = value => {
     setNParticles(value);
@@ -40,12 +43,6 @@ function App() {
       setRange(value);
     }
   }
-
-
-
-  useState(() => {
-
-  }, [speed, isPlaying]);
 
   return (
     <>
@@ -82,16 +79,16 @@ function App() {
               text={isPlaying ? "Pause" : "Play"}
               // TODO: more stuff might need to go in here
               onClick={() => {
-                setIsPlaying(!isPlaying)
-                setShowEditSpace(false)
+                setIsPlaying(!isPlaying);
+                setShowEditSpace(false);
               }}
               color={isPlaying ? "white" : "#e84545"} />
             <Button 
               text={"Reset"} 
               onClick={() => {
-                setParticles(Particle.initParticles(nParticles));
-                setIsPlaying(true);
+                initParticles(nParticles);
                 setHasChanged(false);
+                setIsPlaying(true);
                 setShowEditSpace(false);
               }}
               color={hasChanged ? "#e84545" : "white"} />
@@ -99,13 +96,19 @@ function App() {
             <Button 
               text={"Edit Solution Space"} 
               onClick={() => {
-                setShowEditSpace(!showEditSpace)
+                setShowEditSpace(true)
                 setIsPlaying(false)
               }} />
             }
             </div>
           
-          <Canvas brushSize={brushSize} brushStrength={brushStrength} />
+          <Canvas 
+            brushSize={brushSize} 
+            brushStrength={brushStrength} 
+            showEditSpace={showEditSpace}
+            isPlaying={isPlaying}
+            speed={speed} 
+            scale={scale} />
         </div>
 
         <div className="slider">

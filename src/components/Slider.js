@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types'
-import { useState } from 'react'
 
 const Slider = ({ text, defValue, min, max, step, changeValue, change }) => {
     

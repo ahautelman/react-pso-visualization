@@ -50,16 +50,19 @@ export const CanvasProvider = ({ children }) => {
     }
 
     // TODO: use context.getImageData instead
-    const getCanvasImage = () => {
-        let dataURL = canvasRef.current.toDataURL(1.0);
-        let image = document.createElement("img");
-        image.src = dataURL;
+    // const getCanvasImage = () => {
+    //     let canvas = canvasRef.current;
+    //     let context = contextRef.current;
+    //     let image = context.getImageData(0, 0, canvas.width, canvas.height);
+    //     console.log(image);
+    //     return image;
+    // }
 
-        // image.style.width = "100px";
-        // image.style.height = "100px"
-        return image;
+    const drawImageOnCanvas = (image) => {
+        contextRef.current.putImageData(image, 0, 0);
     }
 
+    // TODO: optimize somehow
     const randomizeCanvas = () => {
         let canvas = canvasRef.current;
         let context = contextRef.current;
@@ -112,8 +115,8 @@ export const CanvasProvider = ({ children }) => {
                 finishDrawing,
                 draw,
                 clearCanvas,
-                getCanvasImage,
-                randomizeCanvas
+                randomizeCanvas,
+                drawImageOnCanvas,
             }}
         >
             {children}

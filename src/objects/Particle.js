@@ -9,16 +9,6 @@ class Particle {
         let velY = Math.random() * 2 - 1;
         this.velocity = [velX, velY];
     };
-
-    update() { };
-
-    static initParticles = nParticles => {
-        let particles = [];
-        for (let i = 0; i < nParticles; i++) {
-            particles.push(new Particle());
-        }
-        return particles;
-    }
 }
 
 export default Particle;

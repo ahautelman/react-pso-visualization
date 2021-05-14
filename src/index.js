@@ -4,11 +4,14 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { CanvasProvider } from "./components/CanvasContext";
+import { ParticlesProvider } from './components/ParticlesContext';
 
 ReactDOM.render(
   <React.StrictMode>
     <CanvasProvider >
-      <App />
+      <ParticlesProvider>
+        <App />
+      </ParticlesProvider>
     </CanvasProvider>
   </React.StrictMode>,
   document.getElementById('root')
