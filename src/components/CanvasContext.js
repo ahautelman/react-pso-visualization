@@ -59,6 +59,9 @@ export const CanvasProvider = ({ children }) => {
     // }
 
     const drawImageOnCanvas = (image) => {
+        if (image === null || image === undefined) {
+            return;
+        }
         contextRef.current.putImageData(image, 0, 0);
     }
 

@@ -9,7 +9,7 @@ class VectorUtil {
         )
     }
 
-    static multiply = (vect1, vect2) => {
+    static multiplyVectors = (vect1, vect2) => {
         return [vect1[0] * vect2[0],
                 vect1[1] * vect2[1]];
     }

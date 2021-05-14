@@ -86,9 +86,10 @@ function App() {
             <Button 
               text={"Reset"} 
               onClick={() => {
+                setIsPlaying(false);
                 initParticles(nParticles);
-                setHasChanged(false);
                 setIsPlaying(true);
+                setHasChanged(false);
                 setShowEditSpace(false);
               }}
               color={hasChanged ? "#e84545" : "white"} />

@@ -2,7 +2,28 @@ import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useCanvas } from './CanvasContext'
 import { useParticles } from './ParticlesContext'
-import VectorUtil from './../objects/VectorUtil'
+import VectorUtil from '../objects/VectorUtil'
+
+const getOrthogonalVector = (vect) => {
+    return [-vect[1], vect[0]]
+}
+  
+const getVectorLength = (vect) => {
+    return Math.sqrt(
+        Math.pow(vect[0], 2) + Math.pow(vect[1], 2)
+    )
+}
+
+const multiplyVectors = (vect1, vect2) => {
+    return [vect1[0] * vect2[0],
+            vect1[1] * vect2[1]];
+}
+
+const normalizeVector = (vect) => {
+    let length = getVectorLength(vect);
+    return [vect[0] / length,
+            vect[1] / length]
+}
 
 const Canvas = ({ brushSize, brushStrength, showEditSpace, isPlaying, speed, scale,  }) => {    
     const {
@@ -20,6 +41,8 @@ const Canvas = ({ brushSize, brushStrength, showEditSpace, isPlaying, speed, sca
         drawImageOnCanvas,
     } = useCanvas();
 
+    const [solutionSpace, setSolutionSpace] = useState(null);
+
     const resetSolutionSpace = () => {
         let canvas = canvasRef.current;
         let context = contextRef.current;
@@ -27,34 +50,34 @@ const Canvas = ({ brushSize, brushStrength, showEditSpace, isPlaying, speed, sca
         setSolutionSpace(image);
     }
 
-    const [solutionSpace, setSolutionSpace] = useState(null);
-
     useEffect(() => {
         prepareCanvas();
-        resetSolutionSpace();
-        console.log(solutionSpace);
-    }, []);
-
+    }, []);   
 
     // Method draws a triangle around the particle's position, taking into consideration it's velocity (direction)
     // The triangle is isosceles and has sharpest angle at the particle's position
     // The direction of the particle's velocity (where it is going) is perpendicular to the triangle's base.
     // graphic description: https://i.imgur.com/N8GFHQT.png
     const drawParticle = (particle, canvasWidth, canvasHeight) => {
+        console.log(particle);
+
         const context = contextRef.current;
         // context.fillStyle = "#002e4a"
 
         // scale particle dims
         let scalingVector = [canvasWidth / 100, canvasHeight / 100];
-        let position = VectorUtil.multiply(particle.position, scalingVector);
-        let velocity = VectorUtil.multiply(particle.velocity, scalingVector);
+        let position = multiplyVectors(particle.position, scalingVector);
+        let velocity = multiplyVectors(particle.velocity, scalingVector);
 
         // draw particle on canvas
-        velocity = VectorUtil.normalizeVector(velocity);
+        console.log(velocity)
+        velocity = normalizeVector(velocity);
+        console.log(velocity);
         let base = [position[0] - 10 * scale * velocity[0],
-                    position[1] * 10 * scale * velocity[1]];
-        let orthoVect = VectorUtil.getOthogonalVector(velocity);
+                    position[1] - 10 * scale * velocity[1]];
+        let orthoVect = getOrthogonalVector(velocity);
 
+        contextRef.current.fillStyle = "#002e4a";
         context.beginPath();
         // start at current particle position
         context.moveTo(position[0], position[1])
@@ -73,7 +96,6 @@ const Canvas = ({ brushSize, brushStrength, showEditSpace, isPlaying, speed, sca
         let canvasWidth = canvasRef.current.width;
         let canvasHeight = canvasRef.current.height;
 
-        contextRef.current.fillStyle = "#002e4a";
         particles.current.forEach((particle) => drawParticle(particle, canvasWidth, canvasHeight));
     }
 
@@ -85,7 +107,12 @@ const Canvas = ({ brushSize, brushStrength, showEditSpace, isPlaying, speed, sca
         let intervalId = setInterval(() => {
             if (isPlaying) {
                 drawImageOnCanvas(solutionSpace);
-                drawParticles();
+
+                let canvasWidth = canvasRef.current.width;
+                let canvasHeight = canvasRef.current.height;
+
+                particles.current.forEach((particle) => drawParticle(particle, canvasWidth, canvasHeight));
+                
                 updateParticles(solutionSpace);
             }
         }, speed)
