@@ -3,7 +3,7 @@ import Header from './components/Header'
 import Slider from './components/Slider'
 import Button from './components/Button'
 import Canvas from './components/Canvas';
-import { useState, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { useCanvas } from './components/CanvasContext';
 import { useParticles } from './components/ParticlesContext';
 
@@ -33,7 +33,8 @@ function App() {
   const [social, setSocial] = useState(0.5);
   const [range, setRange] = useState(nParticles);
 
-  useRef(() => {
+  useEffect(() => {
+    console.log("App.js use effect")
     initParticles(nParticles);
   }, [])
 

@@ -79,10 +79,14 @@ export const CanvasProvider = ({ children }) => {
                     for (let dy = y; dy < y + 31; dy++) {
                         // get color of individual pixel
                         let pixelColor = context.getImageData(dx, dy, 1, 1).data;
-                        context.fillStyle = `rgb(${pixelColor[0]}, 
-                                                 ${pixelColor[1] + randomColor},
-                                                 ${pixelColor[2] + randomColor})`;
-                        context.fillRect(dx, dy, 1, 1);
+                        // randomize only if the pixel has been drawn
+                        if (pixelColor[0] !== 0) {
+                            context.fillStyle = `rgb(${pixelColor[0]}, 
+                                ${pixelColor[1] + randomColor},
+                                ${pixelColor[2] + randomColor})`;
+                            context.fillRect(dx, dy, 1, 1);
+                        }
+                        
                     }
                 }
             }
@@ -97,10 +101,12 @@ export const CanvasProvider = ({ children }) => {
                     for (let dy = y; dy > y - 31; dy--) {
                         // get color of individual pixel
                         let pixelColor = context.getImageData(dx, dy, 1, 1).data;
-                        context.fillStyle = `rgb(${pixelColor[0]}, 
-                                                    ${pixelColor[1] + randomColor},
-                                                    ${pixelColor[2] + randomColor})`;
-                        context.fillRect(dx, dy, 1, 1);
+                        if (pixelColor[0] !== 0) {
+                            context.fillStyle = `rgb(${pixelColor[0]}, 
+                                ${pixelColor[1] + randomColor},
+                                ${pixelColor[2] + randomColor})`;
+                            context.fillRect(dx, dy, 1, 1);
+                        }
                     }
                 }
             }

@@ -51,7 +51,12 @@ const Canvas = ({ brushSize, brushStrength, showEditSpace, isPlaying, speed, sca
     }
 
     useEffect(() => {
+        console.log("Canvas.js init use Effect")
         prepareCanvas();
+        resetSolutionSpace();
+
+        let pixelColor = contextRef.current.getImageData(10, 10, 1, 1).data;
+        console.log(pixelColor);
     }, []);   
 
     // Method draws a triangle around the particle's position, taking into consideration it's velocity (direction)
@@ -59,8 +64,6 @@ const Canvas = ({ brushSize, brushStrength, showEditSpace, isPlaying, speed, sca
     // The direction of the particle's velocity (where it is going) is perpendicular to the triangle's base.
     // graphic description: https://i.imgur.com/N8GFHQT.png
     const drawParticle = (particle, canvasWidth, canvasHeight) => {
-        console.log(particle);
-
         const context = contextRef.current;
         // context.fillStyle = "#002e4a"
 
@@ -70,9 +73,7 @@ const Canvas = ({ brushSize, brushStrength, showEditSpace, isPlaying, speed, sca
         let velocity = multiplyVectors(particle.velocity, scalingVector);
 
         // draw particle on canvas
-        console.log(velocity)
         velocity = normalizeVector(velocity);
-        console.log(velocity);
         let base = [position[0] - 10 * scale * velocity[0],
                     position[1] - 10 * scale * velocity[1]];
         let orthoVect = getOrthogonalVector(velocity);
@@ -99,11 +100,17 @@ const Canvas = ({ brushSize, brushStrength, showEditSpace, isPlaying, speed, sca
         particles.current.forEach((particle) => drawParticle(particle, canvasWidth, canvasHeight));
     }
 
-    useEffect(() => {
-        resetSolutionSpace();
-        console.log("solutionSpace")
-        console.log(solutionSpace);
 
+
+    // useEffect(() => {
+
+    // })
+
+
+
+
+
+    useEffect(() => {
         let intervalId = setInterval(() => {
             if (isPlaying) {
                 drawImageOnCanvas(solutionSpace);
@@ -118,7 +125,11 @@ const Canvas = ({ brushSize, brushStrength, showEditSpace, isPlaying, speed, sca
         }, speed)
 
         return () => {
+            console.log(isPlaying);
             clearInterval(intervalId);
+            if (!isPlaying) {
+                resetSolutionSpace();
+            }
             drawImageOnCanvas(solutionSpace);
         }
     }, [isPlaying, speed, scale]);
