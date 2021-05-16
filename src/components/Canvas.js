@@ -24,7 +24,11 @@ const normalizeVector = (vect) => {
             vect[1] / length]
 }
 
-const Canvas = ({ brushSize, brushStrength, showEditSpace, isPlaying, speed, scale,  }) => {    
+
+const Canvas = ({ brushSize, brushStrength, 
+    showEditSpace, isPlaying, speed, scale, 
+    inertia, maxVelocity, cognitive, social, range }) => {    
+    
     const {
         particles,
         updateParticles,
@@ -105,7 +109,7 @@ const Canvas = ({ brushSize, brushStrength, showEditSpace, isPlaying, speed, sca
             if (isPlaying) {
                 drawSolutionSpaceOnCanvas();
                 drawParticles();
-                updateParticles();
+                updateParticles(solutionSpace, inertia, maxVelocity, cognitive, social, range);
             }
         }, speed);
 
@@ -126,31 +130,6 @@ const Canvas = ({ brushSize, brushStrength, showEditSpace, isPlaying, speed, sca
         }
     }, [showEditSpace])
 
-
-    // useEffect(() => {
-    //     let intervalId = setInterval(() => {
-    //         if (isPlaying) {
-    //             drawImageOnCanvas(solutionSpace);
-
-    //             let canvasWidth = canvasRef.current.width;
-    //             let canvasHeight = canvasRef.current.height;
-
-    //             particles.current.forEach((particle) => drawParticle(particle, canvasWidth, canvasHeight));
-                
-    //             updateParticles(solutionSpace);
-    //         }
-    //     }, speed)
-
-    //     return () => {
-    //         console.log(isPlaying);
-    //         clearInterval(intervalId);
-    //         if (!isPlaying) {
-    //             resetSolutionSpace();
-    //         }
-    //         drawImageOnCanvas(solutionSpace);
-    //     }
-    // }, [isPlaying, speed, scale]);
-
     const canvasStartDrawing = ({ nativeEvent }) => {
         if (showEditSpace) {
             startDrawing({nativeEvent}, brushStrength, brushSize)
@@ -166,14 +145,18 @@ const Canvas = ({ brushSize, brushStrength, showEditSpace, isPlaying, speed, sca
     )
 }
 
-Canvas.defaultProps = { }
-
 Canvas.propTypes = {
     brushSize: PropTypes.number.isRequired,
     brushStrength: PropTypes.number.isRequired,
+    showEditSpace: PropTypes.bool.isRequired,
     isPlaying: PropTypes.bool.isRequired,
     scale: PropTypes.number.isRequired,
     speed: PropTypes.number.isRequired,
+    inertia: PropTypes.number.isRequired,
+    maxVelocity: PropTypes.number.isRequired,
+    cognitive: PropTypes.number.isRequired,
+    social: PropTypes.number.isRequired,
+    range: PropTypes.number.isRequired,
 }
 
 export default Canvas
