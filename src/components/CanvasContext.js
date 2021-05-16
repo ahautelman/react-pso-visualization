@@ -4,6 +4,7 @@ const CanvasContext = React.createContext();
 
 export const CanvasProvider = ({ children }) => {
     const [isDrawing, setIsDrawing] = useState(false);
+    const [solutionSpace, setSolutionSpace] = useState();
     const canvasRef = useRef(null);
     const contextRef = useRef(null);
 
@@ -49,17 +50,17 @@ export const CanvasProvider = ({ children }) => {
         context.fillRect(0, 0, canvas.width, canvas.height);
     }
 
-    // TODO: use context.getImageData instead
-    // const getCanvasImage = () => {
-    //     let canvas = canvasRef.current;
-    //     let context = contextRef.current;
-    //     let image = context.getImageData(0, 0, canvas.width, canvas.height);
-    //     console.log(image);
-    //     return image;
-    // }
+    const getCanvasImage = () => {
+        let canvas = canvasRef.current;
+        let context = contextRef.current;
+        let image = context.getImageData(0, 0, canvas.width, canvas.height);
+        console.log(image);
+        return image;
+    }
 
     const drawImageOnCanvas = (image) => {
         if (image === null || image === undefined) {
+            clearCanvas();
             return;
         }
         contextRef.current.putImageData(image, 0, 0);
@@ -125,6 +126,7 @@ export const CanvasProvider = ({ children }) => {
                 draw,
                 clearCanvas,
                 randomizeCanvas,
+                getCanvasImage,
                 drawImageOnCanvas,
             }}
         >

@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useCanvas } from './CanvasContext'
 import { useParticles } from './ParticlesContext'
-import VectorUtil from '../objects/VectorUtil'
 
 const getOrthogonalVector = (vect) => {
     return [-vect[1], vect[0]]
@@ -38,25 +37,14 @@ const Canvas = ({ brushSize, brushStrength, showEditSpace, isPlaying, speed, sca
         startDrawing,
         finishDrawing,
         draw,
+        getCanvasImage,
         drawImageOnCanvas,
     } = useCanvas();
 
-    const [solutionSpace, setSolutionSpace] = useState(null);
-
-    const resetSolutionSpace = () => {
-        let canvas = canvasRef.current;
-        let context = contextRef.current;
-        let image = context.getImageData(0, 0, canvas.width, canvas.height);
-        setSolutionSpace(image);
-    }
+    const [solutionSpace, setSolutionSpace] = useState();
 
     useEffect(() => {
-        console.log("Canvas.js init use Effect")
         prepareCanvas();
-        resetSolutionSpace();
-
-        let pixelColor = contextRef.current.getImageData(10, 10, 1, 1).data;
-        console.log(pixelColor);
     }, []);   
 
     // Method draws a triangle around the particle's position, taking into consideration it's velocity (direction)
@@ -65,7 +53,6 @@ const Canvas = ({ brushSize, brushStrength, showEditSpace, isPlaying, speed, sca
     // graphic description: https://i.imgur.com/N8GFHQT.png
     const drawParticle = (particle, canvasWidth, canvasHeight) => {
         const context = contextRef.current;
-        // context.fillStyle = "#002e4a"
 
         // scale particle dims
         let scalingVector = [canvasWidth / 100, canvasHeight / 100];
@@ -93,6 +80,11 @@ const Canvas = ({ brushSize, brushStrength, showEditSpace, isPlaying, speed, sca
         contextRef.current.fill()
     }
 
+    // const drawSolutionSpaceOnCanvas = () => {
+    //     drawImageOnCanvas(solutionSpace);
+    // }
+
+    // TODO: this could go into CanvasContext
     const drawParticles = () => {
         let canvasWidth = canvasRef.current.width;
         let canvasHeight = canvasRef.current.height;
@@ -100,39 +92,64 @@ const Canvas = ({ brushSize, brushStrength, showEditSpace, isPlaying, speed, sca
         particles.current.forEach((particle) => drawParticle(particle, canvasWidth, canvasHeight));
     }
 
+    const updateSolutionSpace = () => {
+        setSolutionSpace(getCanvasImage);
+    }
+
+    const drawSolutionSpaceOnCanvas = () => {
+        drawImageOnCanvas(solutionSpace);
+    }
+
+    useEffect(() => {
+        let intervalID = setInterval(() => {
+            if (isPlaying) {
+                drawSolutionSpaceOnCanvas();
+                drawParticles();
+                updateParticles();
+            }
+        }, speed);
+
+        return () => {
+            clearInterval(intervalID);
+        }
+    }, [isPlaying, speed, scale, solutionSpace]);
+
+    useEffect(() => {
+        if (showEditSpace) {
+            drawImageOnCanvas(solutionSpace);
+        }
+
+        return () => {
+            if (showEditSpace) {
+                updateSolutionSpace()
+            }
+        }
+    }, [showEditSpace])
 
 
     // useEffect(() => {
+    //     let intervalId = setInterval(() => {
+    //         if (isPlaying) {
+    //             drawImageOnCanvas(solutionSpace);
 
-    // })
+    //             let canvasWidth = canvasRef.current.width;
+    //             let canvasHeight = canvasRef.current.height;
 
-
-
-
-
-    useEffect(() => {
-        let intervalId = setInterval(() => {
-            if (isPlaying) {
-                drawImageOnCanvas(solutionSpace);
-
-                let canvasWidth = canvasRef.current.width;
-                let canvasHeight = canvasRef.current.height;
-
-                particles.current.forEach((particle) => drawParticle(particle, canvasWidth, canvasHeight));
+    //             particles.current.forEach((particle) => drawParticle(particle, canvasWidth, canvasHeight));
                 
-                updateParticles(solutionSpace);
-            }
-        }, speed)
+    //             updateParticles(solutionSpace);
+    //         }
+    //     }, speed)
 
-        return () => {
-            console.log(isPlaying);
-            clearInterval(intervalId);
-            if (!isPlaying) {
-                resetSolutionSpace();
-            }
-            drawImageOnCanvas(solutionSpace);
-        }
-    }, [isPlaying, speed, scale]);
+    //     return () => {
+    //         console.log(isPlaying);
+    //         clearInterval(intervalId);
+    //         if (!isPlaying) {
+    //             resetSolutionSpace();
+    //         }
+    //         drawImageOnCanvas(solutionSpace);
+    //     }
+    // }, [isPlaying, speed, scale]);
 
     const canvasStartDrawing = ({ nativeEvent }) => {
         if (showEditSpace) {
