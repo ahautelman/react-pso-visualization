@@ -10,7 +10,7 @@ class Particle {
         this.velocity = [velX, velY];
 
         this.bestFitness = -Infinity;
-        this.bestPostion = this.position;
+        this.bestPosition = this.position;
     };
 
     update(position, velocity) {

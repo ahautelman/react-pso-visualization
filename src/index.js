@@ -8,11 +8,11 @@ import { ParticlesProvider } from './components/ParticlesContext';
 
 ReactDOM.render(
   <React.StrictMode>
-    <CanvasProvider >
-      <ParticlesProvider>
+    <ParticlesProvider>
+      <CanvasProvider >
         <App />
-      </ParticlesProvider>
-    </CanvasProvider>
+      </CanvasProvider>
+    </ParticlesProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
