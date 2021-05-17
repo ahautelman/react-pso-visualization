@@ -1,9 +1,10 @@
 import './App.css';
-import Header from './components/Header'
-import Slider from './components/Slider'
-import Button from './components/Button'
+import Header from './components/Header';
+import Slider from './components/Slider';
+import Button from './components/Button';
 import Canvas from './components/Canvas';
-import { useState, useEffect } from 'react'
+import Formula from './components/Formula';
+import { useState, useEffect } from 'react';
 import { useCanvas } from './components/CanvasContext';
 import { useParticles } from './components/ParticlesContext';
 
@@ -145,6 +146,8 @@ function App() {
             changeValue={setRange}
             change={setHasChanged} />
         </div>
+
+        <Formula />
       </div>
     </>
   );

@@ -103,10 +103,6 @@ const Canvas = ({ brushSize, brushStrength,
     useEffect(() => {
         let intervalID = setInterval(() => {
             if (isPlaying) {
-                console.log("Canvas particles");
-                console.log(particles.current);
-
-                
                 drawSolutionSpaceOnCanvas();
                 drawParticles();
                 updateParticles(solutionSpace, inertia, maxVelocity, cognitive, social, range);
