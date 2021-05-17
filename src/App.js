@@ -95,21 +95,25 @@ function App() {
                 setIsPlaying(false)
               }} />
             }
-            </div>
-          
+          </div>
           <Canvas 
             brushSize={brushSize} 
             brushStrength={brushStrength} 
             showEditSpace={showEditSpace}
             isPlaying={isPlaying}
             speed={speed} 
-            scale={scale} />
+            scale={scale} 
+            inertia={inertia} 
+            maxVelocity={maxVelocity}
+            cognitive={cognitive}
+            social={social}
+            range={range} />
         </div>
 
         <div className="slider">
           <Slider 
             text={"Number of Particles"} 
-            min={5} max={50} defValue={nParticles}
+            min={1} max={50} defValue={nParticles}
             changeValue={setNParticles}
             change={setHasChanged} />
           <Slider 

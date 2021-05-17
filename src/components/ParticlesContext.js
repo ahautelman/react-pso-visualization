@@ -35,6 +35,8 @@ export const ParticlesProvider = ({children}) => {
             return;
         }
 
+        let parts = []
+
         let fitnessMap = new Map();
 
         particles.current.forEach((particle) => {
@@ -44,55 +46,57 @@ export const ParticlesProvider = ({children}) => {
         console.log(fitnessMap);
 
         for (let particle of particles.current) {
-            console.log(particle)
+            let bestNeighbourFitness = -Infinity;
+            let bestNeighbourPosition = particle.bestPosition;
+
+            for (let otherParticle of particles.current) {
+                if (VectorUtil.vectorsDistance(particle.position, otherParticle.position) < range) {
+                    if (bestNeighbourFitness < otherParticle.bestFitness) {
+                        bestNeighbourFitness = otherParticle.bestFitness;
+                        bestNeighbourPosition = otherParticle.bestPosition;
+                    }
+                }
+            }
+
+            let position = [0, 0];
+            let velocity = [0, 0];
+
+            for (let i = 0 ; i <= 1; i++) {
+                let r1 = Math.random();
+                let r2 = Math.random();
+
+                velocity[i] = inertia * particle.velocity[i] 
+                    // cognitive component    
+                    + cognitive * r1 * [particle.bestPosition[i] - particle.position[i]]
+                    // social componenet
+                    + social * r2 * [bestNeighbourPosition[i] - particle.position[i]];
+
+                // TODO: check for negative values
+                if (velocity[i] > maxVelocity) {
+                    velocity[i] = maxVelocity;
+                }
+                
+                position[i] = particle.position[i] + velocity[i];
+            }
+
+            // console.log(position);
+            // console.log(velocity)
+
+            let newParticle = new Particle(position, velocity)
+            let newFitness = getFitness(newParticle, solutionSpace); 
+            if (newFitness >= particle.bestFitness) {
+                newParticle.setBest(position, newFitness);
+            } else {
+                newParticle.setBest(particle.bestPosition, particle.bestFitness);
+            }
+
+            parts.push(newParticle);
         }
 
-        // for (let particle of particles.current) {
-        //     console.log(particle)
-        //     let bestNeighbourFitness = -Infinity;
-        //     let bestNeighbourPosition = particle.bestPosition;
+        particles.current = parts;
 
-        //     for (let otherParticle of particles.current) {
-        //         if (VectorUtil.vectorsDistance(particle.position, otherParticle.position) < range) {
-        //             if (bestNeighbourFitness < fitnessMap.get(otherParticle)) {
-        //                 bestNeighbourFitness = fitnessMap.get(otherParticle);
-        //                 bestNeighbourPosition = otherParticle.position;
-        //             }
-        //         }
-        //     }
-
-        //     let position = [0, 0];
-        //     let velocity = [0, 0];
-
-        //     for (let i = 0 ; i <= 1; i++) {
-        //         let r1 = Math.random();
-        //         let r2 = Math.random();
-
-        //         velocity[i] = inertia * particle.velocity[i] 
-        //             // cognitive component    
-        //             + cognitive * r1 * [particle.bestPosition[i] - particle.position[i]]
-        //             // social componenet
-        //             + social * r2 * [bestNeighbourPosition[i] - particle.position[i]];
-
-        //         if (velocity[i] > maxVelocity) {
-        //             velocity[i] = maxVelocity;
-        //         }
-                
-        //         position[i] = particle.position[i] + velocity[i];
-        //     }
-
-        //     console.log(position);
-        //     console.log(velocity)
-
-        //     particle.update(position, velocity);
-            
-
-        //     // update best position and fitness if needed
-        //     let newFitness = getFitness(particle, solutionSpace); 
-        //     if (newFitness >= particle.bestFitness) {
-        //         particle.setBest(position, newFitness);
-        //     }
-        // }
+        // console.log("Particles context particles")
+        // console.log(particles.current)
     }
 
     return (

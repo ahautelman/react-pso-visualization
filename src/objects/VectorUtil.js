@@ -5,7 +5,7 @@ class VectorUtil {
 
     static getVectorLength = ( vect ) => {
         return Math.sqrt(
-            Math.pow(vect[0], 2) + Math.pow(vect[1], 2)
+            vect[0]**2 + vect[1]**2
         )
     }
 
@@ -22,7 +22,7 @@ class VectorUtil {
 
     static vectorsDistance = ( vect1, vect2 ) => {
         return Math.sqrt(
-            (vect1[0] - vect2[0])^2 + (vect1[1] - vect2[1])^2);
+            (vect1[0] - vect2[0])**2 + (vect1[1] - vect2[1])**2);
     }    
     
     static floor = (vect) => {

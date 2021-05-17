@@ -84,10 +84,6 @@ const Canvas = ({ brushSize, brushStrength,
         contextRef.current.fill()
     }
 
-    // const drawSolutionSpaceOnCanvas = () => {
-    //     drawImageOnCanvas(solutionSpace);
-    // }
-
     // TODO: this could go into CanvasContext
     const drawParticles = () => {
         let canvasWidth = canvasRef.current.width;
@@ -107,6 +103,10 @@ const Canvas = ({ brushSize, brushStrength,
     useEffect(() => {
         let intervalID = setInterval(() => {
             if (isPlaying) {
+                console.log("Canvas particles");
+                console.log(particles.current);
+
+                
                 drawSolutionSpaceOnCanvas();
                 drawParticles();
                 updateParticles(solutionSpace, inertia, maxVelocity, cognitive, social, range);
