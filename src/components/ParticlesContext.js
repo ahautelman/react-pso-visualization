@@ -29,20 +29,6 @@ export const ParticlesProvider = ({children}) => {
         return solutionSpaceData[positionOffset] - solutionSpaceData[positionOffset + 1];
     }
 
-    // const updateParticles = (solutionSpace, inertia, maxVelocity, cognitive, social, range) => {
-    //     if (solutionSpace === undefined) {
-    //         return;
-    //     }
-
-    //     let fitnessMap = new Map();
-
-    //     particles.current.forEach((particle) => {
-    //         fitnessMap.set(particle, getFitness(particle, solutionSpace));
-    //     })
-
-    //     console.log(fitnessMap);
-    // }
-
     // TODO: optimize
     const updateParticles = (solutionSpace, inertia, maxVelocity, cognitive, social, range) => {
         if (solutionSpace === undefined) {

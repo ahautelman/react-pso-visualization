@@ -31,19 +31,12 @@ function App() {
   const [maxVelocity, setMaxVelocity] = useState(20);
   const [cognitive, setCognitive] = useState(0.5);
   const [social, setSocial] = useState(0.5);
-  const [range, setRange] = useState(nParticles);
+  const [range, setRange] = useState(100);
 
   useEffect(() => {
     console.log("App.js use effect")
     initParticles(nParticles);
   }, [])
-
-  const changeNumberOfParticles = value => {
-    setNParticles(value);
-    if (nParticles < range) {
-      setRange(value);
-    }
-  }
 
   return (
     <>
@@ -117,11 +110,11 @@ function App() {
           <Slider 
             text={"Number of Particles"} 
             min={5} max={50} defValue={nParticles}
-            changeValue={changeNumberOfParticles}
+            changeValue={setNParticles}
             change={setHasChanged} />
           <Slider 
             text={"Inertia"} 
-            min={0.1} max={1} defValue={inertia} step={0.05}
+            min={0.0} max={1} defValue={inertia} step={0.05}
             changeValue={setInerita}
             change={setHasChanged} />
           <Slider 
@@ -144,7 +137,7 @@ function App() {
             change={setHasChanged} />
           <Slider 
             text={"Range"} 
-            min={1} max={nParticles} defValue={range}
+            min={1} max={100} defValue={range}
             changeValue={setRange}
             change={setHasChanged} />
         </div>
