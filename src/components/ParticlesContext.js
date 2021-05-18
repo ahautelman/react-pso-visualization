@@ -71,9 +71,10 @@ export const ParticlesProvider = ({children}) => {
                     // social componenet
                     + social * r2 * [bestNeighbourPosition[i] - particle.position[i]];
 
-                // TODO: check for negative values
                 if (velocity[i] > maxVelocity) {
                     velocity[i] = maxVelocity;
+                } else if (velocity[i] < -maxVelocity) {
+                    velocity[i] = -maxVelocity;
                 }
                 
                 position[i] = particle.position[i] + velocity[i];

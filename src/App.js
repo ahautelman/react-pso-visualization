@@ -65,21 +65,7 @@ function App() {
         </div>
 
         <div className="container">
-          {showEditSpace && 
-          <div className="space-edit" >
-            <Slider 
-              text={"Brush Strength"} 
-              min={0} max={5} defValue={brushStrength} 
-              changeValue={setBrushStrength} />
-            <Slider 
-              text={"Brush Size"} 
-              min={5} max={50} defValue={brushSize} step={5}
-              changeValue={setBrushSize} />
-            <Button
-              text="Randomize"
-              onClick={randomizeCanvas} />
-          </div>}
-          <div className="buttons">
+        <div className="buttons">
             <Button 
               text={isPlaying ? "Pause" : "Play"}
               // TODO: more stuff might need to go in here
@@ -93,9 +79,9 @@ function App() {
               onClick={() => {
                 setIsPlaying(false);
                 initParticles(nParticles);
-                setIsPlaying(true);
                 setHasChanged(false);
                 setShowEditSpace(false);
+                setIsPlaying(true);
               }}
               color={hasChanged ? "#e84545" : "white"} />
             {!showEditSpace && 
@@ -107,6 +93,37 @@ function App() {
               }} />
             }
           </div>
+
+          {showEditSpace && 
+          <div >
+            <div className="space-edit">
+            <Slider 
+                text={"Brush Strength"} 
+                min={0} max={5} defValue={brushStrength} 
+                changeValue={setBrushStrength} />
+              <Slider 
+                text={"Brush Size"} 
+                min={5} max={50} defValue={brushSize} step={5}
+                changeValue={setBrushSize} />
+              <Button
+                text="Clear Canvas"
+                onClick={clearCanvas} />
+            </div>
+            <div className="space-edit" >
+              <Button
+                text="Generate Map"
+                onClick={() => window.alert("TODO")} />
+              <Button
+                text="Import Image"
+                onClick={() => window.alert("TODO")} />
+              <Button
+                text="Randomize"
+                onClick={randomizeCanvas} />
+            </div>
+          </div>}
+
+
+
           <Canvas 
             brushSize={brushSize} 
             brushStrength={brushStrength} 
