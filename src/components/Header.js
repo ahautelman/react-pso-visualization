@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 const Header = () => {
     return (
         <header>
-            <h1>Particle Swarm Optimization Visualization</h1>
+            <h1>PARTICLE SWARM OPTIMIZATION VISUALIZER</h1>
         </header>
     )
 }

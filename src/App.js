@@ -34,10 +34,19 @@ function App() {
   const [social, setSocial] = useState(0.5);
   const [range, setRange] = useState(100);
 
+  const sexyRed = "#e84545";
+
   useEffect(() => {
     console.log("App.js use effect")
     initParticles(nParticles);
   }, [])
+
+  const setColorOnElement = ( id, color ) => {
+    console.log("hovering");
+    let span = document.getElementById(id);
+    console.log(span);
+    span.style.backgroundColor = color;
+  }
 
   return (
     <>
@@ -45,7 +54,7 @@ function App() {
 
       <div className="body">
         <div className="slider">
-          <Slider text={"Speed"} 
+          <Slider text={"Delay"} 
             min={100} max={2000} defValue={speed} step={100} 
             changeValue={setSpeed} />
           <Slider 
@@ -118,15 +127,19 @@ function App() {
             changeValue={setNParticles}
             change={setHasChanged} />
           <Slider 
-            text={"Inertia"} 
-            min={0.0} max={1} defValue={inertia} step={0.05}
-            changeValue={setInerita}
-            change={setHasChanged} />
-          <Slider 
             text={"Max Velocity"} 
             min={1} max={20} defValue={maxVelocity}
             changeValue={setMaxVelocity}
-            change={setHasChanged} />
+            change={setHasChanged}
+            onMouseEnter={() => setColorOnElement("velocity", sexyRed)}
+            onMouseLeave={() => setColorOnElement("velocity", "white")} />
+          <Slider 
+            text={"Inertia"} 
+            min={0.0} max={1} defValue={inertia} step={0.05}
+            changeValue={setInerita}
+            change={setHasChanged}
+            onMouseEnter={() => setColorOnElement("inertia", sexyRed) }
+            onMouseLeave={() => setColorOnElement("inertia", "white")} />
         </div>
 
         <div className="slider">
@@ -134,12 +147,16 @@ function App() {
             text={"Cognitive Component"} 
             min={0} max={1} defValue={cognitive} step={0.05}
             changeValue={setCognitive}
-            change={setHasChanged} />
+            change={setHasChanged}
+            onMouseEnter={() => setColorOnElement("cognitive", sexyRed)}
+            onMouseLeave={() => setColorOnElement("cognitive", "white")} />
           <Slider 
             text={"Social Component"} 
             min={0} max={1} defValue={social} step={0.05}
             changeValue={setSocial}
-            change={setHasChanged} />
+            change={setHasChanged}
+            onMouseEnter={() => setColorOnElement("social", sexyRed)}
+            onMouseLeave={() => setColorOnElement("social", "white")} />
           <Slider 
             text={"Range"} 
             min={1} max={100} defValue={range}

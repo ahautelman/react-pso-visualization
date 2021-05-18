@@ -56,24 +56,32 @@ header {
   justify-content: space-evenly;
 }
 
-.formula span {
+.formula, .formula-extra {
   margin: auto;
-  margin-top: 50px;
-  text-align: center;
-  padding: 5px;
-  border-radius: 20px;
+  max-width: 80%;
+  width: fit-content;
+  align-self: center;
 }
 
-#inertia:hover {
-  background-color: #e84545;
-  font-size: 1.3em;
+.formula {
+  margin-top: 50px;
+  margin-bottom: 30px;
+}
+
+.explanation {
+  text-align: center;
+}
+
+.formula span {
+  padding: 10px;
+  border-radius: 15px;
 }
 
 .range-slider {
   height: 100%;
   width: 20%;
   border: 3px solid #002e4a;
-  border-radius: 5px;
+  border-radius: 15px;
   background-color: white;
   padding: 5px;
   text-align: center;
@@ -94,12 +102,32 @@ button {
   height: 100%;
   width: 20%;
   border: 3px solid #002e4a;
-  border-radius: 5px;
+  border-radius: 15px;
   cursor: pointer;
   font-family: inherit;
   font-size: 1.3em;
   padding: 10px;
   min-width: 120px;
+}
+
+ul {
+  list-style-image: url("images/particle.png");
+}
+
+li {
+  margin-top: 10px;
+}
+
+li i {
+  margin-right: 4px;
+}
+
+h1 {
+  font-size: 2.6em;
+}
+
+h2 {
+  font-weight: 400;
 }
 
 h3 {
