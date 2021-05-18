@@ -4,6 +4,7 @@ import Slider from './components/Slider';
 import Button from './components/Button';
 import Canvas from './components/Canvas';
 import Formula from './components/Formula';
+import Footer from './components/Footer';
 import { useState, useEffect } from 'react';
 import { useCanvas } from './components/CanvasContext';
 import { useParticles } from './components/ParticlesContext';
@@ -165,6 +166,8 @@ function App() {
         </div>
 
         <Formula />
+
+        <Footer />
       </div>
     </>
   );

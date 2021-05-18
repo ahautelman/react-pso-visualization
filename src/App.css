@@ -13,12 +13,34 @@
 }
 
 header, .body, footer {
-    min-width: 300px;
+  min-width: 300px;
 }
 
 header {
-    text-align: center;
-    padding: 30px;
+  padding: 30px;
+}
+
+header h1 {
+  text-align: center;
+}
+
+header h2 {
+  margin-top: 30px;
+}
+
+header .introduction {
+  margin: auto;
+  max-width: 80%;
+  width: fit-content;
+  align-self: center;
+}
+
+header ul, footer ul {
+  padding-left: 50px;
+}
+
+header ul h2 {
+  margin-top: 0;
 }
 
 .body {
@@ -27,6 +49,14 @@ header {
   min-width: 90%;
   min-height: 300px;
   padding: 30px;
+}
+
+footer {
+  margin: auto;
+  margin-top: 100px;
+  max-width: 80%;
+  width: fit-content;
+  align-self: center;
 }
 
 .slider, .space-edit, .container {
@@ -120,6 +150,10 @@ li {
 
 li i {
   margin-right: 4px;
+}
+
+header h1 {
+  margin-bottom: 30px;
 }
 
 h1 {
